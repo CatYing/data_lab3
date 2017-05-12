@@ -1,0 +1,140 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/materialize.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+<style>
+    header, main, footer {
+        padding-left: 300px;
+    }
+
+    @media only screen and (max-width: 992px) {
+        header, main, footer {
+            padding-left: 0;
+        }
+    }
+
+    a:hover {
+        color: #7b1fa2;
+        transition: all 0.4s ease-in-out;
+    }
+
+</style>
+
+
+<header>
+    <div class="container">
+        <ul id="slide-out" class="side-nav fixed">
+            <li>
+                <div class="userView">
+                    <div class="background">
+                        <img src="{% static 'imgs/71b2cbb3ly1fdkd6l6eikj21kw13u474.jpg' %}" style="max-width: 300px">
+                    </div>
+                    <a href="#"><img class="circle" src="{% static "imgs/20130121222641_Hd5xE.jpeg" %}"></a>
+                    <!--点击编辑信息-->
+                    <a href="#"><span class="white-text name">数据库查询系统</span></a>
+                    <a href="#"><span class="white-text email">喵~</span></a>
+                </div>
+            </li>
+            <li><a href="{% url 'index' %}" class="waves-effect">首页</a></li>
+            <li><a href="{% url 'any' %}" class="waves-effect">任意实体查询（查）</a></li>
+            <li><a href="{% url 'level-create' %}" class="waves-effect">创建学历级别（增）</a></li>
+            <li><a href="{% url 'level-update' %}" class="waves-effect">修改学历级别（改）</a></li>
+            <li><a href="{% url 'level-delete' %}" class="waves-effect">删除学历级别（删）</a></li>
+            <li><a href="{% url 'user-list' %}" class="waves-effect">用户好友查看（连接）</a></li>
+            <li><a href="{% url 'edu-mix' %}" class="waves-effect">查看学历非硕士的用户（嵌套）</a></li>
+            <li><a href="{% url 'edu-group' %}" class="waves-effect">查看学历有硕士的用户（分组）</a></li>
+            <li>
+                <div class="divider"></div>
+            </li>
+        </ul>
+    </div>
+</header>
+
+
+<main>
+
+    <nav>
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo">{% block navhead %}{% endblock %}</a>
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">数据库 实验三</h5>
+                <p class="grey-text text-lighten-4">HIT CS&E</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">技术支持</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" target="_blank" href="https://djangoproject.com">Django</a>
+                    </li>
+                    <li><a class="grey-text text-lighten-3" target="_blank" href="http://www.materializecss.cn/">Materialize
+                        CSS</a></li>
+                    <li><a class="grey-text text-lighten-3" target="_blank" href="https://www.mysql.com/">MySQL</a></li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2017 Copyright CatYing
+            <a class="grey-text text-lighten-3 right" href="https://github.com/catying" target="_blank">Github</a>
+        </div>
+    </div>
+</footer>
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/materialize.js' %}"></script>
+<script src="{% static 'js/jquery.cookie.js' %}"></script>
+<script>
+    var csrftoken = $.cookie('csrftoken');
+    function csrfSafeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+</script>
+<script>
+    $(".button-collapse").sideNav();
+    $('.modal').modal();
+</script>
+
+<script>
+    $("#identify").click(function () {
+        $("#modal_id").modal("open");
+    })
+</script>
+
+{% block script %}
+{% endblock %}
+
+</body>
+</html>

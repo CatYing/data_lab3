@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}修改学历级别{% endblock %}
+
+{% block navhead %}修改学历级别{% endblock %}
+
+{% block content %}
+
+
+    <div class="container">
+        <table>
+            <thead>
+            <tr>
+                <th data-field="id">pk</th>
+                <th data-field="name">学历名称</th>
+                <th>确认修改</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for level in level_list %}
+                <tr>
+                    <td>{{ level.pk }}</td>
+                    <td>
+                        <div class="input-field col s4">
+                            <input type="text" class="validate" name="name"
+                                   value="{{ level.name }}" id="{{ level.id }}">
+                        </div>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn" data-id="{{ level.pk }}">修改该学历</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+{% endblock %}
+
+
+
+{% block script %}
+
+    <script>
+    $(document).ready(function(){
+        $(".btn").click(function(e) {
+            var select = "#" + $(e.target).attr('data-id');
+            var options = {
+                async: false,
+                type: 'post',
+                url: '{% url 'level-update' %}',
+                data: {
+                    'pk': $(e.target).attr('data-id'),
+                    'name': $(select).val()
+                },
+                success: function(data) {
+                    if (data.result) {
+                        location.reload();
+                    }
+                    else{
+                        alert(data.message);
+                    }
+                },
+                error: function() {
+                    alert("服务器开小差了");
+                }
+            };
+            $.ajax(options);
+        })
+
+    })
+    </script>
+
+
+{% endblock %}

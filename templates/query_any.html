@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}任意实体查询{% endblock %}
+
+{% block navhead %}任意实体查询{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="input-field col s6">
+                <select>
+                    {% for model in models_list %}
+                        <option value="{{ model }}">{{ model }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class=" input-field col s6">
+                <a class="waves-effect waves-light btn">查询</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <table class="highlight">
+            <thead>
+            <tr id="head">
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+
+
+{% block script %}
+
+
+    <script>
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+        var result = '';
+        var tHeads = ['pk'];
+
+
+        $(".btn").click(function () {
+            $("#head").empty();
+            $("tbody").empty();
+            var options = {
+                async: false,
+                url: '{% url 'api-any' %}',
+                type: 'POST',
+                data: {
+                    'model': $('select').val()
+                },
+                success: function (data) {
+                    result = data;
+                    for (var i in result[0].fields) {
+                        tHeads.push(i);
+                    }
+                },
+                error: function () {
+                    alert("error");
+                }
+            };
+            $.ajax(options);
+            generateTHead();
+            htmlConstructor();
+        });
+
+        var htmlConstructor = function () {
+            var finale = "";
+            for (var i = 0; i < result.length; i++) {
+                var html = "<tr>";
+                var row = "<td>" + result[i].pk + "</td>";
+                for (var j = 1; j < tHeads.length; j++) {
+                    row = row + "<td>" + result[i].fields[tHeads[j]] + "</td>"
+                }
+                html = html + row;
+                html += "</tr>";
+                finale += html;
+            }
+            $("tbody").append(finale);
+            result = "";
+            tHeads = ['pk'];
+        };
+
+        var generateTHead = function () {
+            for (var i in tHeads) {
+                $("#head").append("<th>" + tHeads[i] + "</th>");
+            }
+        };
+
+
+    </script>
+
+{% endblock %}

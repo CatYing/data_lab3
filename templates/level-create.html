@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}创建学历级别{% endblock %}
+
+{% block navhead %}创建学历级别{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-field col s6">
+                    <input id="level" type="text" class="validate" name="name">
+                    <label for="level">学历级别</label>
+                </div>
+            </form>
+            <div class=" input-field col s6">
+                <a class="waves-effect waves-light btn">插入</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+
+        <table>
+            <thead>
+            <tr>
+                <th data-field="id">pk</th>
+                <th data-field="name">级别</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for level in level_list %}
+                <tr>
+                    <td>{{ level.pk }}</td>
+                    <td>{{ level.name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+
+        $(document).ready(function () {
+            $(".btn").click(function () {
+                $('form').submit();
+            })
+        })
+
+    </script>
+
+{% endblock %}

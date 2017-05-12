@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}嵌套查询{% endblock %}
+
+{% block navhead %}嵌套查询{% endblock %}
+
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <ul class="collection col s5">
+                {% for user in user_list %}
+                    <li class="collection-item">{{ user }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
